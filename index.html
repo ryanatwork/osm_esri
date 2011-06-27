@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html> 
+  <head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+    <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9" /> 
+    <!--The viewport meta tag is used to improve the presentation and behavior of the samples 
+      on iOS devices-->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>OpenStreetMap- default options</title> 
+    <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/2.3/js/dojo/dijit/themes/claro/claro.css">
+      <script type="text/javascript">
+      var djConfig = {
+        parseOnLoad: true
+      };
+    </script>
+    <script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.3"></script>
+    
+    <script type="text/javascript"> 
+      dojo.require("esri.map");
+      dojo.require("esri.layers.osm");
+      var map, osmLayer;
+ 
+      function init() {
+        //setup the copyright text http://www.openstreetmap.org/copyright
+        var copyrightText= '&#169; <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> contributors, '
+                    + '<a href="http://creativecommons.org/licenses/by-sa/2.1/" target="_blank">CC-BY-SA</a>';
+
+        dojo.byId('osmCopy').innerHTML = copyrightText;
+		var extent = new 	esri.geometry.Extent({"xmin":-13204441.135492312,"ymin":4083458.830749193,"xmax":-13180611.891924439,"ymax":4089172.4986135024,"spatialReference":{"wkid":102100}});
+        map = new esri.Map("map",{extent:extent,logo:false});
+        
+        osmLayer = new esri.layers.OpenStreetMapLayer();
+        map.addLayer(osmLayer);
+
+        var details = "";
+        details = "loaded: " + osmLayer.loaded + "<br />";
+        details += "initialExtent: " + dojo.toJson(osmLayer.initialExtent.toJson()) + "<br />";
+        details += "fullExtent: " + dojo.toJson(osmLayer.fullExtent.toJson()) + "<br />";
+        details += "spatialReference: " + dojo.toJson(osmLayer.spatialReference.toJson())+ "<br />";
+        dojo.byId("info").innerHTML = details;
+      }
+
+      dojo.addOnLoad(init);
+    </script> 
+  </head> 
+  
+  <body class="claro" style="font-size: small; font-family: Arial Unicode MS,Arial,sans-serif;"> 
+    <div id="map" style="position:relative;width:700px; height:500px; border:1px solid #000;">
+      <div id="osmCopy" style="position:absolute; color:black;font-weight:bold;right:10px; bottom:10px; z-Index:999;"></div>
+    </div> 
+
+    <div id="info" style="padding:5px; margin:5px; background-color:#eee;"></div> 
+  </body> 
+</html>
